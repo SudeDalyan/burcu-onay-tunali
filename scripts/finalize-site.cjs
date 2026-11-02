@@ -1,0 +1,39 @@
+const fs=require('fs'),path=require('path');
+const root=path.resolve(__dirname,'../dist'),origin='https://burcu-onay-tunali.sudedalyann.chatgpt.site';
+const items=JSON.parse(fs.readFileSync(path.join(root,'listings.json'),'utf8'));
+const esc=s=>String(s).replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;').replaceAll('>','&gt;');
+const arrow='<svg class="action-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>';
+const horizontal='<svg class="action-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h16m-6-6 6 6-6 6"/></svg>';
+const down='<svg class="action-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 4v16m-6-6 6 6 6-6"/></svg>';
+const clean=s=>s.replace(/<[^>]*>/g,' ').replace(/\s+/g,' ').replaceAll('&amp;','&').replaceAll('&quot;','"').trim();
+function card(x){return `<article class="listing"><a class="listing-image" href="/ilan/${x.code.toLowerCase()}/"><img src="/${x.image}" alt="${esc(x.town)}, ${esc(x.neighborhood)} ${x.rooms} ${x.rent?'kiralık':'satılık'} daire" width="900" height="600" loading="lazy" decoding="async"><span class="tag">${x.rent?'KİRALIK':'SATILIK'}</span><span class="image-arrow" aria-hidden="true">${arrow}</span></a><div class="listing-body"><p class="listing-location">İZMİR / ${esc(x.town.toLocaleUpperCase('tr-TR'))}</p><h3>${esc(x.title.toLocaleLowerCase('tr-TR'))}</h3><p class="listing-specs">${esc(x.neighborhood)} · ${x.rooms} · ${x.area} m²</p><div class="listing-bottom"><strong>${new Intl.NumberFormat('tr-TR').format(x.price)} ₺${x.rent?'<small> / ay</small>':''}</strong><a class="listing-cta" href="/ilan/${x.code.toLowerCase()}/" aria-label="${esc(x.title)} ilanını inceleyin"><span>İlanı incele</span>${arrow}</a></div></div></article>`;}
+const files=[];function walk(p){for(const f of fs.readdirSync(p,{withFileTypes:true})){const full=path.join(p,f.name);if(f.isDirectory())walk(full);else if(f.name==='index.html')files.push(full);}}walk(root);
+for(const file of files){let html=fs.readFileSync(file,'utf8');const route='/'+path.relative(root,path.dirname(file)).split(path.sep).filter(Boolean).join('/')+(path.dirname(file)===root?'':'/');
+ const item=items.find(x=>route===`/ilan/${x.code.toLowerCase()}/`),url=origin+route;
+ if(item)html=html.replace(/<title>[\s\S]*?<\/title>/,`<title>${esc(`${item.town} ${item.rooms} ${item.rent?'Kiralık':'Satılık'} Daire · ${item.code} | Burcu Onay Tunalı`)}</title>`);
+ if(item){const uniqueDescription=clean(html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/)[1])+'. '+item.area+' m², '+new Intl.NumberFormat('tr-TR').format(item.price)+' ₺'+(item.rent?' / ay':'')+'. İlan '+item.code+'. Burcu Onay Tunalı ile bilgi ve yer gösterimi için görüşün.';html=html.replace(/<meta name="description" content="[^"]*">/, '<meta name="description" content="'+esc(uniqueDescription)+'">');}
+ const title=clean(html.match(/<title>([\s\S]*?)<\/title>/)[1]),description=html.match(/<meta name="description" content="([^"]*)"/)[1];
+ html=html.replace(/<link rel="canonical"[^>]*>/g,'').replace(/<meta property="og:[^"]+"[^>]*>/g,'').replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/g,'');
+ const image=origin+'/'+(item?item.image:'assets/burcu-hero.jpg');
+ const person={'@type':'Person','@id':origin+'/#person',name:'Burcu Onay Tunalı',jobTitle:'Gayrimenkul Danışmanı',image:origin+'/assets/burcu-hero.jpg',telephone:'+905442355466',email:'burcu@remax-target-izm.com',worksFor:{'@type':'Organization',name:'RE/MAX Target'},sameAs:['https://remax.com.tr/tr/danisman/43800/burcu-onay-tunali','https://www.remax-target-izm.com/danismanlar/burcu-onay-tunali/']};
+ const graph=[{'@type':'WebSite','@id':origin+'/#website',url:origin+'/',name:'Burcu Onay Tunalı',inLanguage:'tr-TR'},person,{'@type':'WebPage','@id':url+'#webpage',url,name:title,description:clean(description),isPartOf:{'@id':origin+'/#website'},about:{'@id':origin+'/#person'},inLanguage:'tr-TR'}];
+ if(route!=='/')graph.push({'@type':'BreadcrumbList',itemListElement:[{'@type':'ListItem',position:1,name:'Anasayfa',item:origin+'/'},...(item?[{'@type':'ListItem',position:2,name:'Portföy',item:origin+'/portfoy/'}]:[]),{'@type':'ListItem',position:item?3:2,name:clean(html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/)[1]),item:url}]});
+ if(item)graph.push({'@type':'RealEstateListing','@id':url+'#listing',url,name:item.title,description:clean(description),image:(item.gallery||[item.image]).map(i=>origin+'/'+i),about:{'@type':'Apartment',name:item.title,floorSize:{'@type':'QuantitativeValue',value:Number(item.area),unitCode:'MTK'},address:{'@type':'PostalAddress',addressLocality:item.town,addressRegion:'İzmir',addressCountry:'TR'}},offers:{'@type':'Offer',price:item.price,priceCurrency:'TRY',url}});
+ if(route==='/'||route==='/portfoy/')graph.push({'@type':'ItemList',itemListElement:items.map((x,i)=>({'@type':'ListItem',position:i+1,name:x.title,url:origin+'/ilan/'+x.code.toLowerCase()+'/'}))});
+ const metadata=`<link rel="canonical" href="${url}"><meta property="og:type" content="website"><meta property="og:locale" content="tr_TR"><meta property="og:site_name" content="Burcu Onay Tunalı"><meta property="og:url" content="${url}"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${description}"><meta property="og:image" content="${image}"><meta property="og:image:alt" content="${item?esc(item.title):'Burcu Onay Tunalı, gayrimenkul danışmanı'}"><meta name="twitter:card" content="summary_large_image"><script type="application/ld+json">${JSON.stringify({'@context':'https://schema.org','@graph':graph}).replaceAll('<','\\u003c')}</script><link rel="stylesheet" href="/ui-fixes.css?v=5">`;
+ html=html.replace('</head>',metadata+'</head>');
+ html=html.replaceAll('class="route-icon"','class="route-icon" aria-hidden="true"');
+ html=html.replace('<span class="route-icon" aria-hidden="true">⌂</span>','<svg class="route-icon" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="m3 10 9-7 9 7M5 9v12h14V9M9 21v-8h6v8"/></svg>');
+ html=html.replace(/<span>↗<\/span>/g,arrow).replace(/<span>→<\/span>/g,horizontal).replace(/<span>↓<\/span>/g,down);
+ html=html.replace(/(<(?:a|button)[^>]*class="[^"]*\bbutton\b[^"]*"[^>]*>)([^<]+)([\s\S]*?)(<\/(?:a|button)>)/g,(_,open,label,rest,close)=>`${open}<span class="button-label">${label.trim()}</span>${rest}${close}`);
+ html=html.replace(/<img([^>]*?)src="(?:\/)?assets\/burcu\.png"([^>]*?)>/g,'<img$1src="/assets/burcu-hero.jpg"$2>');
+ html=html.replace(/<img(?![^>]*\bwidth=)([^>]*?)>/g,'<img width="900" height="600"$1>');
+ if(route==='/'||route==='/portfoy/'){
+   html=html.replace(/<div id="listings" class="listing-grid">[\s\S]*?<\/div>/,`<div id="listings" class="listing-grid">${items.map(card).join('')}</div>`).replace('<span id="result-count" aria-live="polite"></span>','<span id="result-count" aria-live="polite">7 gayrimenkul</span>');
+   html=html.replace('<button id="more-listings"','<button hidden id="more-listings"');
+ }
+ fs.writeFileSync(file,html);
+}
+fs.writeFileSync(path.join(root,'robots.txt'),`User-agent: *\nAllow: /\nSitemap: ${origin}/sitemap.xml\n`);
+fs.writeFileSync(path.join(root,'404.html'),`<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Sayfa bulunamadı | Burcu Onay Tunalı</title><link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/ui-fixes.css"></head><body><main class="section"><p class="eyebrow">404 / SAYFA BULUNAMADI</p><h1>Yeni bir sayfa açalım.</h1><p>Aradığınız sayfa bulunamadı. Portföyden aramaya devam edebilirsiniz.</p><a class="button primary" href="/portfoy/">Portföyü inceleyin ${arrow}</a></main></body></html>`);
+console.log('SEO and UI finalized for '+files.length+' pages.');

@@ -46,3 +46,5 @@ fs.writeFileSync(path.join(dist,'index.html'),homepage);
 const all=['/','/portfoy/','/hakkimda/','/hizmetler/','/emlak-araclari/','/iletisim/','/gizlilik/',...listings.map(x=>'/ilan/'+x.code.toLowerCase()+'/')];
 fs.writeFileSync(path.join(dist,'sitemap.xml'),'<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+all.map(r=>`<url><loc>${origin}${r}</loc></url>`).join('')+'</urlset>');
 console.log('Built '+all.length+' pages.');
+
+require('./finalize-site.cjs');

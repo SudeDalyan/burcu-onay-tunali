@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://burcu-onay-tunali.sudedalyann.chatgpt.site/sitemap.xml
