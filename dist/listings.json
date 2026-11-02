@@ -9,7 +9,12 @@
     "rooms": "2+1",
     "price": 45000,
     "rent": true,
-    "image": "assets/P53276248.webp"
+    "image": "assets/P53276248.webp",
+    "gallery": [
+      "assets/P53276248.webp",
+      "assets/P53276248-1.webp",
+      "assets/P53276248-2.webp"
+    ]
   },
   {
     "code": "P83784827",
@@ -21,7 +26,12 @@
     "rooms": "3+1",
     "price": 51000,
     "rent": true,
-    "image": "assets/P83784827.webp"
+    "image": "assets/P83784827.webp",
+    "gallery": [
+      "assets/P83784827.webp",
+      "assets/P83784827-1.webp",
+      "assets/P83784827-2.webp"
+    ]
   },
   {
     "code": "P63732523",
@@ -33,7 +43,12 @@
     "rooms": "2+1",
     "price": 48000,
     "rent": true,
-    "image": "assets/P63732523.webp"
+    "image": "assets/P63732523.webp",
+    "gallery": [
+      "assets/P63732523.webp",
+      "assets/P63732523-1.webp",
+      "assets/P63732523-2.webp"
+    ]
   },
   {
     "code": "P85418355",
@@ -45,7 +60,12 @@
     "rooms": "2+1",
     "price": 7350000,
     "rent": false,
-    "image": "assets/P85418355.webp"
+    "image": "assets/P85418355.webp",
+    "gallery": [
+      "assets/P85418355.webp",
+      "assets/P85418355-1.webp",
+      "assets/P85418355-2.webp"
+    ]
   },
   {
     "code": "P75417667",
@@ -57,7 +77,12 @@
     "rooms": "2+1",
     "price": 45000,
     "rent": true,
-    "image": "assets/P75417667.webp"
+    "image": "assets/P75417667.webp",
+    "gallery": [
+      "assets/P75417667.webp",
+      "assets/P75417667-1.webp",
+      "assets/P75417667-2.webp"
+    ]
   },
   {
     "code": "P58003617",
@@ -69,7 +94,12 @@
     "rooms": "2+1",
     "price": 8400000,
     "rent": false,
-    "image": "assets/P58003617.webp"
+    "image": "assets/P58003617.webp",
+    "gallery": [
+      "assets/P58003617.webp",
+      "assets/P58003617-1.webp",
+      "assets/P58003617-2.webp"
+    ]
   },
   {
     "code": "P40225535",
@@ -81,6 +111,11 @@
     "rooms": "2+1",
     "price": 8700000,
     "rent": false,
-    "image": "assets/P40225535.webp"
+    "image": "assets/P40225535.webp",
+    "gallery": [
+      "assets/P40225535.webp",
+      "assets/P40225535-1.webp",
+      "assets/P40225535-2.webp"
+    ]
   }
 ]
