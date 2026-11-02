@@ -1,0 +1,86 @@
+[
+  {
+    "code": "P53276248",
+    "title": "ÇİĞLİ-ATAŞEHİR'İN MERKEZİNDE -HAVUZLU SİTEDE -KİRALIK 2+1 DAİRE",
+    "city": "İzmir",
+    "town": "Çiğli",
+    "neighborhood": "Ataşehir Mah.",
+    "area": "87",
+    "rooms": "2+1",
+    "price": 45000,
+    "rent": true,
+    "image": "assets/P53276248.webp"
+  },
+  {
+    "code": "P83784827",
+    "title": "ÇİĞLİ ATAŞEHİR’DE 2021 YAPIMI 3+1 | YERDEN ISITMALI | 2 BANYOLU KİRALIK DAİRE",
+    "city": "İzmir",
+    "town": "Çiğli",
+    "neighborhood": "Ataşehir Mah.",
+    "area": "115",
+    "rooms": "3+1",
+    "price": 51000,
+    "rent": true,
+    "image": "assets/P83784827.webp"
+  },
+  {
+    "code": "P63732523",
+    "title": "ÇİĞLİ  BEST ATAŞEHIR SITESINDE | HAVUZLU | 2+1 KIRALIK DAIRE",
+    "city": "İzmir",
+    "town": "Çiğli",
+    "neighborhood": "Ataşehir Mah.",
+    "area": "87",
+    "rooms": "2+1",
+    "price": 48000,
+    "rent": true,
+    "image": "assets/P63732523.webp"
+  },
+  {
+    "code": "P85418355",
+    "title": "ALİAĞA'DA SN PARK PLUS’TA 2021 YAPIMI 2+1 | BALKONLU | KREDİYE UYGUN",
+    "city": "İzmir",
+    "town": "Aliağa",
+    "neighborhood": "Siteler Mah.",
+    "area": "120",
+    "rooms": "2+1",
+    "price": 7350000,
+    "rent": false,
+    "image": "assets/P85418355.webp"
+  },
+  {
+    "code": "P75417667",
+    "title": "ÇİĞLİ ATAŞEHİR’DE SIFIR 2+1 | HAVUZLU  | 2 BANYO | BALKONLU",
+    "city": "İzmir",
+    "town": "Çiğli",
+    "neighborhood": "Ataşehir Mah.",
+    "area": "87",
+    "rooms": "2+1",
+    "price": 45000,
+    "rent": true,
+    "image": "assets/P75417667.webp"
+  },
+  {
+    "code": "P58003617",
+    "title": "ÇİĞLİ-ATAŞEHİR'İN MERKEZİNDE SATILIK 2+1 BAHÇE KATI DAİRE",
+    "city": "İzmir",
+    "town": "Çiğli",
+    "neighborhood": "Ataşehir Mah.",
+    "area": "87",
+    "rooms": "2+1",
+    "price": 8400000,
+    "rent": false,
+    "image": "assets/P58003617.webp"
+  },
+  {
+    "code": "P40225535",
+    "title": "ÇİĞLİ /ATAŞEHİR'DE BEST ATAŞEHİR SİTESİNDE HAVUZLU  2+1 SATILIK DAİRE",
+    "city": "İzmir",
+    "town": "Çiğli",
+    "neighborhood": "Ataşehir Mah.",
+    "area": "87",
+    "rooms": "2+1",
+    "price": 8700000,
+    "rent": false,
+    "image": "assets/P40225535.webp"
+  }
+]
