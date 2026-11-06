@@ -22,9 +22,19 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/configure-pages@v5
+      - id: pages
+        uses: actions/configure-pages@v5
+      - name: Prefix root-relative paths with base path
+        env:
+          BASE: ${{ steps.pages.outputs.base_path }}
+        run: |
+          rm -rf _site && cp -r dist _site
+          if [ -n "$BASE" ]; then
+            find _site -name '*.html' -print0 | xargs -0 sed -i -E "s#=\"/([^/]|\")#=\"$BASE/\1#g"
+            sed -i -E "s#\"/(ilan/|\\\$\\{)#\"$BASE/\1#g; s#'/listings\.json'#'$BASE/listings.json'#g" _site/app.js
+          fi
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: _site
       - id: deployment
         uses: actions/deploy-pages@v4
